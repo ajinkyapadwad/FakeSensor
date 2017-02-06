@@ -17,18 +17,17 @@ class SimpleFakeSensor
       sys.stderr.write("Invalid number of arguments.")
       sys.stderr.write("Usage: <Aggregator Host> <Aggregator Port>")
       return
-    
     agg = SensorAggregatorInterface()
     # Disconnect on exception
     agg.setDisconnectOnException(True)
     # Do not reconnect, for now.
     agg.setStayConnected(False)    
 
-    def run(): 
+    def shutdownhook(): 
         print "Disconnecting..."
         agg.disconnect()
         print "Disconnected."  
-    atexit.register(run)
+    atexit.register(shutdownhook)   # Add new thread ?
 
     agg.setHost(args[0])
     port = int(args[1])
@@ -40,17 +39,16 @@ class SimpleFakeSensor
 
     attempts = 0
     
-    while !agg.isCanSendSamples()
+    while (!agg.isCanSendSamples()):
       ++attempts
-      try:
+      """try:
         Thread.sleep(10)
       except InterruptedException ie  # check exception type
-
+      """
       if (attempts > 100) 
         System.err.println("Aggregator didn't become ready after 1 second. Giving-up!")
         return
-
-    scheduler.enterlabs() # check syntax
+    def newtask():
       DEV_ID = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11, 12, 13, 14, 15, 16 ]
       RECV_ID = [ 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 ]
       RSSI = -50
@@ -68,6 +66,4 @@ class SimpleFakeSensor
           scheduler.cancel()
         else
           sys.stderr.write("Sent " + msg)           
-
-     , 10, 1000
-  
+    scheduler.enterabs(newtask(),10,1000) # check syntax        
