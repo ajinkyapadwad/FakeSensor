@@ -11,51 +11,50 @@ from threading import Thread
 
 #s = sched.scheduler(time.time, time.sleep)
 
-class SimpleFakeSensor 
-  def main (args) 
+class SimpleFakeSensor:
+  def main (args) :
     if len(args) != 2:
       sys.stderr.write("Invalid number of arguments.")
       sys.stderr.write("Usage: <Aggregator Host> <Aggregator Port>")
       return
-    
     agg = SensorAggregatorInterface()
     # Disconnect on exception
     agg.setDisconnectOnException(True)
     # Do not reconnect, for now.
     agg.setStayConnected(False)    
 
-    def run(): 
+    def shutdownhook(): 
         print "Disconnecting..."
         agg.disconnect()
         print "Disconnected."  
-    atexit.register(run)
+    atexit.register(shutdownhook)   # Add new thread ?
 
     agg.setHost(args[0])
     port = int(args[1])
     agg.setPort(port)
 
-    if !agg.connect(10000L): 
+    if not agg.connect(10000L): 
       sys.stderr.write("Unable to connect to aggregator at " + args[0] + ":" + port)
       return
 
     attempts = 0
     
-    while !agg.isCanSendSamples()
+    while not agg.isCanSendSamples():
       ++attempts
       try:
         Thread.sleep(10)
-      except InterruptedException ie  # check exception type
-
-      if (attempts > 100) 
+      except : InterruptedException  # check exception type
+      
+      if (attempts > 100): 
         System.err.println("Aggregator didn't become ready after 1 second. Giving-up!")
         return
-
-    scheduler.enterlabs() # check syntax
+    def newtask():
       DEV_ID = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11, 12, 13, 14, 15, 16 ]
       RECV_ID = [ 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 ]
       RSSI = -50
       PHY = 1
-      DATA = [(byte) 0xAB, (byte) 0xBA ]
+      #DATA = 0
+      DATA = [0xAB, 0xBA]   # convert hexadecimal to byte ?
       def run():
         msg = SampleMessage()
         msg.setPhysicalLayer(this.PHY)
@@ -63,11 +62,9 @@ class SimpleFakeSensor
         msg.setDeviceId(this.DEV_ID)
         msg.setReceiverId(this.RECV_ID)
         msg.setSensedData(this.DATA)
-        if !agg.sendSample(msg)
+        if not agg.sendSample(msg):
           sys.stderr.write("Unable to send a sample!")
           scheduler.cancel()
-        else
+        else:
           sys.stderr.write("Sent " + msg)           
-
-     , 10, 1000
-  
+    scheduler.enterabs(newtask(),10,1000) # check syntax        
