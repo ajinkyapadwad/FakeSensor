@@ -1,0 +1,11 @@
+
+import SensorAggregatorInterface;
+
+class ConnectionListener 
+  connectionEnded(SensorAggregatorInterface aggregator)
+
+  connectionEstablished(SensorAggregatorInterface aggregator)
+
+  connectionInterrupted(SensorAggregatorInterface aggregator)
+  
+  readyForSamples(SensorAggregatorInterface aggregator)
