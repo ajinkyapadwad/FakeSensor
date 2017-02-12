@@ -1,118 +1,98 @@
 
-import java.util.Arrays;
+#import java.util.Arrays;
 
-import com.owlplatform.common.util.NumericUtils;
-
+#import com.owlplatform.common.util.NumericUtils;
+import time
 
 class SampleMessage :
 
-	DEVICE_ID_SIZE = 16
-
-	MESSAGE_TYPE = 6
-
- 	PHYSICAL_LAYER_UNDEFINED = 0xFF # convert to byte.
+  DEVICE_ID_SIZE = 16
   
-  	PHYSICAL_LAYER_ALL = 0
+  MESSAGE_TYPE = 6
+  
+  PHYSICAL_LAYER_UNDEFINED = 0xFF # convert to byte.
+  
+  PHYSICAL_LAYER_ALL = 0
 
-  	PHYSICAL_LAYER_PIPSQUEAK = 1
+  PHYSICAL_LAYER_PIPSQUEAK = 1
 
-  	PHYSICAL_LAYER_WIFI = 2
+  PHYSICAL_LAYER_WIFI = 2
 
-  	PHYSICAL_LAYER_WINS = 3
+  PHYSICAL_LAYER_WINS = 3
 
-  	physicalLayer = PHYSICAL_LAYER_UNDEFINED
+  physicalLayer = PHYSICAL_LAYER_UNDEFINED
 
-  	def getPhysicalLayer() :
-  		return this.physicalLayer
+  def getPhysicalLayer() :
+  	return self.physicalLayer
 
-  	def setPhysicalLayer( physicalLayer):
-  		try:
-  			physicalLayer == PHYSICAL_LAYER_ALL
-  		except: IllegalArgumentException("Invalid physical layer type. " + PHYSICAL_LAYER_ALL + " is reserved for filtering only.")
-  		this.physicalLayer = physicalLayer
-    # variables -----------------
-    private byte[] deviceId
+  def setPhysicalLayer(physicalLayer):
+    try:
+      physicalLayer == PHYSICAL_LAYER_ALL
+    except: IllegalArgumentException("Invalid physical layer type. " + PHYSICAL_LAYER_ALL + " is reserved for filtering only.")
+    self.physicalLayer = physicalLayer    
+ 
+  def SampleMessage() :
+    self.creationTimestamp = time.clock() / 1000
 
-    private byte[] receiverId
+  def SampleMessage(timestamp) :
+    self.creationTimestamp = timestamp
 
-    private long receiverTimeStamp
-
-    private float rssi
-
-    private final long creationTimestamp
-
-    private byte[] sensedData = null
-
-    def SampleMessage() :
-    	this.creationTimestamp = System.currentTimeMillis()
-
-
-    def SampleMessage(final long timestamp) :
-    	this.creationTimestamp = timestamp
-
-    def getLengthPrefixSensor() :
+  def getLengthPrefixSensor() :
     # physicalLayer, devId, recvId, timestamp, rssi
     length = 1 + DEVICE_ID_SIZE * 2 + 8 + 4
-    if (this.sensedData != null) :
-    	{
-    	length += this.sensedData.length;
-    	}
-    	return length
+    if self.sensedData is not none :
+      length += len(self.sensedData)
+    return length
 
-    def getLengthPrefixSolver() :
+  def getLengthPrefixSolver() :
     # physicalLayer, messageId, devId, recvId, timestamp, rssi
-    	length = 2 + DEVICE_ID_SIZE * 2 + 8 + 4;
-    	if (this.sensedData != null) :
-    	length += this.sensedData.length    
-    	return length
+    length = 2 + DEVICE_ID_SIZE * 2 + 8 + 4;
+    if self.sensedData is not none :
+      length += this.sensedData.length    
+    return length
 
-    def getDeviceId() :
-    	return this.deviceId
+  def getDeviceId() :
+    return self.deviceId
 
-	def setDeviceId(byte[] deviceId) :
-    	try : deviceId == null
-    	except : RuntimeException("Device ID cannot be null.")
+  def setDeviceId(deviceId) :
+    try : deviceId is none
+    except : RuntimeException("Device ID cannot be null.")
+    try : deviceId.length is not DEVICE_ID_SIZE
+    except : RuntimeException("Device ID must be" + int(DEVICE_ID_SIZE)+ " bytes long.")
+    self.deviceId = deviceId
 
-    	try : deviceId.length != DEVICE_ID_SIZE
-    	except : RuntimeException(String.format("Device ID must be" + Integer.valueOf(DEVICE_ID_SIZE)+ " bytes long.")
-    	
-    	this.deviceId = deviceId
+  def getReceiverId() :
+    return self.receiverId
 
-    def getReceiverId() :
-    	return this.receiverId
+  def setReceiverId(receiverId) :
+    try : receiverId is none
+    except : RuntimeException("Receiver ID cannot be null.")	
+    try : receiverId.length != DEVICE_ID_SIZE
+    except : RuntimeException("Receiver ID must be "+int(DEVICE_ID_SIZE)+" bytes long.")
+    self.receiverId = receiverId;
 
+  def getReceiverTimeStamp() :
+    return self.receiverTimeStamp
 
-	def setReceiverId(byte[] receiverId) :
-    	try : receiverId == null
-    	except : RuntimeException("Receiver ID cannot be null.")
-    			
-    	try : receiverId.length != DEVICE_ID_SIZE
-    	except : RuntimeException(String.format("Receiver ID must be "+Integer.valueOf(DEVICE_ID_SIZE)+" bytes long.")
-    	
-    	this.receiverId = receiverId;
-    	
+  def setReceiverTimeStamp(receiverTimeStamp) :
+    self.receiverTimeStamp = receiverTimeStamp
 
-    def getReceiverTimeStamp() :
-      	return this.receiverTimeStamp
+  def getRssi() :
+    return self.rssi
+
+  def setRssi(rssi) :
+    self.rssi = rssi
+
+  def getSensedData() :
+    return self.sensedData
+
+  def setSensedData(sensedData) :
+    self.sensedData = sensedData
+
     
-    def setReceiverTimeStamp(long receiverTimeStamp) :
-    	this.receiverTimeStamp = receiverTimeStamp
-      	
-    def getRssi() :
-    	return this.rssi
-    	 
-    def setRssi(float rssi) :
-    	this.rssi = rssi
-    	
-    def getSensedData() :
-    	return this.sensedData
-    	
-	def setSensedData(byte[] sensedData) :
-    	this.sensedData = sensedData;
-    	
-
     	#-----------------------------------------
-    	public String toString() {
+    	public String toString() 
+      {
     	StringBuffer sb = new StringBuffer()
     	sb.append("Sample (").append(this.getPhysicalLayer())
     	sb.append(", ")
@@ -131,22 +111,21 @@ class SampleMessage :
     	return sb.toString()
     	}
     	#-----------------------------------------
+    """
+  def getCreationTimestamp() :
+    return self.creationTimestamp
 
-  	def getCreationTimestamp() :
-   		return this.creationTimestamp
-   
-
-   	def getTestMessage() 
-   		message = new SampleMessage()
-   		a =[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ]
-   		message.setDeviceId(a)
-		message.setReceiverId(a) # needs new instance of a[] ?
-  		message.setPhysicalLayer((byte) 1)
-   		message.setRssi(-50f)
-   		message.setSensedData(new byte[] { 0, 0 })
- 		return message
-
-   	def clone() throws CloneNotSupportedException 
+  def getTestMessage() : 
+    message = SampleMessage()
+    a =[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ]
+    message.setDeviceId(a)
+    message.setReceiverId(a) # needs new instance of a[] ?
+    message.setPhysicalLayer(byte(1)) # byte of ...
+    message.setRssi(float(-50))
+    message.setSensedData(0, 0) # passs arrray of byte as argument ...
+    return message
+"""
+  def clone() throws CloneNotSupportedException 
    {
    		SampleMessage clone = (SampleMessage) super.clone()
    		if (this.sensedData != null) 
@@ -155,3 +134,4 @@ class SampleMessage :
    		}
    		return clone
    }
+"""
