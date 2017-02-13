@@ -1,23 +1,4 @@
-/*
- * Owl Platform Sensor-Aggregator Library for Java
- * Copyright (C) 2012 Robert Moore and the Owl Platform
- * 
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation; either version 2.1 of the License, or
- * (at your option) any later version.
- *  
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- *  
- * You should have received a copy of the GNU Lesser General Public License along
- * with this program; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
-package com.owlplatform.sensor;
-
+"""
 import java.net.InetSocketAddress;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -36,96 +17,44 @@ import com.owlplatform.common.SampleMessage;
 import com.owlplatform.sensor.listeners.ConnectionListener;
 import com.owlplatform.sensor.protocol.codecs.AggregatorSensorProtocolCodecFactory;
 import com.owlplatform.sensor.protocol.messages.HandshakeMessage;
+"""
 
-/**
- * A convenience class for interfacing with aggregators as a sensor/hub. Since
- * most sensors are implemented in C/C++, this class is primarily used by
- * Aggregators to forward sensor data to another aggregator.
- * 
- * @author Robert Moore
- */
-public class SensorAggregatorInterface {
+class SensorAggregatorInterface :
 
-  /**
-   * A wrapper to take hide the IOAdapter events from classes using the
-   * SensorAggregatorInterface.
-   * 
-   * @author Robert Moore
-   */
-  private static final class AdapterHandler implements SensorIoAdapter {
+  class AdapterHandler(SensorIoAdapter):
+ 
+    parent = SensorAggregatorInterface()
 
-    /**
-     * The actual object that will respond to events.
-     */
-    private final SensorAggregatorInterface parent;
+    def AdapterHandler(parent) :  
+      try : parent is none 
+      except : IllegalArgumentException("SensorAggregatorInterface cannot be null")    
+      self.parent = parent
+    # these ones - --------------------------  
+    def exceptionCaught(IoSession session, Throwable cause) 
+      self.parent.exceptionCaught(session, cause);
+    
+    def sensorConnected(IoSession session) 
+      self.parent.sensorConnected(session)
 
-    /**
-     * Creates a new AdapterHandler with the specified
-     * {@code SensorAggregatorInterface} to actually handle events.
-     * 
-     * @param parent
-     *          the real event handler
-     */
-    public AdapterHandler(SensorAggregatorInterface parent) {
-      if (parent == null) {
-        throw new IllegalArgumentException(
-            "SensorAggregatorInterface cannot be null");
-      }
-      this.parent = parent;
-    }
+    def sensorDisconnected(IoSession session) 
+      self.parent.sensorDisconnected(session)
 
-    @Override
-    public void exceptionCaught(IoSession session, Throwable cause) {
-      this.parent.exceptionCaught(session, cause);
-    }
+    def handshakeMessageReceived(IoSession session,HandshakeMessage handshakeMessage)
+      self.parent.handshakeMessageReceived(session, handshakeMessage)    
 
-    @Override
-    public void sensorConnected(IoSession session) {
-      this.parent.sensorConnected(session);
+    def handshakeMessageSent(IoSession session, HandshakeMessage handshakeMessage) 
+      self.parent.handshakeMessageSent(session, handshakeMessage);
 
-    }
+    def sensorSampleReceived(IoSession session, SampleMessage sampleMessage) 
+      self.parent.sensorSampleReceived(session, sampleMessage)
+    
+    def sensorSampleSent(IoSession session, SampleMessage sampleMessage)
+      self.parent.sensorSampleSent(session, sampleMessage)
 
-    @Override
-    public void sensorDisconnected(IoSession session) {
-      this.parent.sensorDisconnected(session);
-
-    }
-
-    @Override
-    public void handshakeMessageReceived(IoSession session,
-        HandshakeMessage handshakeMessage) {
-      this.parent.handshakeMessageReceived(session, handshakeMessage);
-    }
-
-    @Override
-    public void handshakeMessageSent(IoSession session,
-        HandshakeMessage handshakeMessage) {
-      this.parent.handshakeMessageSent(session, handshakeMessage);
-    }
-
-    @Override
-    public void sensorSampleReceived(IoSession session,
-        SampleMessage sampleMessage) {
-      this.parent.sensorSampleReceived(session, sampleMessage);
-    }
-
-    @Override
-    public void sensorSampleSent(IoSession session, SampleMessage sampleMessage) {
-      this.parent.sensorSampleSent(session, sampleMessage);
-    }
-
-    @Override
-    public void sessionIdle(IoSession session, IdleStatus idleStatus) {
-      this.parent.sessionIdle(session, idleStatus);
-    }
-
-  }
-
-  /**
-   * Logging facility for this class.
-   */
-  private static final Logger log = LoggerFactory
-      .getLogger(SensorAggregatorInterface.class);
+    def sessionIdle(IoSession session, IdleStatus idleStatus) 
+      self.parent.sessionIdle(session, idleStatus)
+# This one --
+  Logger log = LoggerFactory .getLogger(SensorAggregatorInterface.class);
 
   /**
    * The object that will pass events to this SensorAggregatorInterface. Used to
@@ -832,4 +761,4 @@ public class SensorAggregatorInterface {
     return "Sensor-Aggregator Interface @ " + this.host + ":" + this.port;
   }
 
-}
+
