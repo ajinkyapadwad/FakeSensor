@@ -1,0 +1,92 @@
+# Basic TCP/IP communication setup for client-server
+# CLIENT
+import socket	
+import struct
+import binascii
+import time
+import array
+
+TCP_IP = 'localhost'		# IPv4 address
+TCP_PORT = 7007			# port number	
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 	# ( IPv4, socket constant )
+s.connect((TCP_IP, TCP_PORT))	# attach socket to remote address
+print "Connection Successful."
+
+print 'Handshake initiated..'
+
+"""
+print 'Original handshake : ', handshake
+print 'Packed :', packed_data
+print 'Packer size:', packer.size
+"""
+#BinPack = binascii.hexlify("GRAIL sensor protocol")
+#print ' Hexlify : ', BinPack, ' SIZE : ', len(BinPack)
+
+#string1 = string.encode('ascii', 'GRAIL sensor protocol')
+#print string1
+#BinPack = binascii.hexlify('0x00')
+
+handshake = (21,'GRAIL sensor protocol', 0, 0)
+
+packer = struct.Struct('!'+'I 21s h h')				# declare a new struct object
+packed_data = packer.pack(*handshake)	
+
+#time.sleep(1)
+
+print 'Sending Handkshake Message..'
+
+#while 1: 
+data = s.recv(36)
+print "Received:",data
+
+s.sendall(packed_data)
+print 'Sent    :',packed_data
+
+print 'Handshake Complete.'
+
+print"Sleep 10 seconds.."
+time.sleep(10)
+
+
+
+print 'Now sending sample sensor data...'
+
+
+#DEV_ID = ''.join(chr(x) for x in [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11, 12, 13, 14, 15, 16 ])
+#RECV_ID = ''.join(chr(x) for x in [ 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 ])
+#DATA = ''.join(chr(x) for x in [ 1, 2, 3, 4, 5, 6, 7, 8])
+
+
+length = 45
+PHY = 1
+DEV_ID = bytearray([ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11, 12, 13, 14, 15, 16 ])
+RECV_ID = bytearray([ 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 ])
+DATA = bytearray([ 1, 2, 3, 4, 5, 6, 7, 8])
+timestamp =  int(round(time.time() * 1000))
+RSSI = -50
+
+# print 'DEV:' , binascii.hexlify(DEV_ID)
+# print 'REC:' , binascii.hexlify(RECV_ID)
+# print 'TIMESTAMP:' , timestamp
+# print 'DATA:', binascii.hexlify(DATA)
+
+
+# length = 45
+# PHY = 1
+# DEV_ID = 1
+# RECV_ID = 2
+# DATA = 3
+# timestamp =  4
+# RSSI = -50
+# packer2 = struct.Struct('!'+'I I I I I f I')
+
+
+SensorData = (length,PHY,DEV_ID,RECV_ID,timestamp,RSSI,DATA)
+packer2 = struct.Struct('!'+'i h h h h f h')
+packed_data = packer2.pack(*SensorData)	
+print 'PACKET: ', packed_data
+while 1:
+	time.sleep(1)
+	s.sendall(packed_data)
+	print 'SENT: ', SensorData
