@@ -20,43 +20,53 @@ try :
 		port = sys.argv[2]
 	except:
 		print colored("	Please input the host / port name.\n 	Syntax: python filename.py hostname port", 'red')
-		
+		print colored("\n\n Default : \n 	Hostname - localhost \n 	port - 7007 ", 'blue')
 	# host = 'localhost'	# IPv4 address, localhost for this program
 	# port = 7007			# port number	
 
 	# create new socket for TCP / IP connection
-	print "\n	connecting to the Aggregator server ..."
+	print colored("\n	connecting to the Aggregator server ...", 'green')
 	time.sleep(1)
 
 	NewSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 	# ( IPv4, socket constant )
 	NewSocket.connect((argv[1], argv[2]))	# attach socket to remote address
 
-except Exception as ex:
-	print ("One or more errors have occurred !\n 	Exception: %s"%(ex))
+	print a
+
+	print colored("Connection Successful !", 'green')
+
+	NewSocket.close()
+	sys.exit()
+# ------------------ HANDSHAKE -------------------------------------
+	print colored('Handshake initiated ...', 'green')
+
+	handshake = (21,'GRAIL sensor protocol', 0, 0)
+
+	packer = struct.Struct('!'+'I 21s b b')				# declare a new struct object
+	packed_data = packer.pack(*handshake)	
+
+	#time.sleep(1)
+
+	print 'Sending Handkshake Message..'
+
+	data = s.recv(36)
+	print "Received:",data
+
+	s.sendall(packed_data)
+	print 'Sent    :',packed_data
+
+	print 'Handshake Complete.'
+
+
+except:
+	ErrorText = colored('	One or more errors have occurred !\n', 'red')
+	print(ErrorText)
 	NewSocket.close()
 	sys.exit()
 
-print "Connection Successful."
-
-print 'Handshake initiated..'
 
 
-handshake = (21,'GRAIL sensor protocol', 0, 0)
 
-packer = struct.Struct('!'+'I 21s b b')				# declare a new struct object
-packed_data = packer.pack(*handshake)	
-
-#time.sleep(1)
-
-print 'Sending Handkshake Message..'
-
-data = s.recv(36)
-print "Received:",data
-
-s.sendall(packed_data)
-print 'Sent    :',packed_data
-
-print 'Handshake Complete.'
 
 # print"Sleep 10 seconds.."
 # time.sleep(10)
