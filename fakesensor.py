@@ -3,31 +3,39 @@ OWL PLATFORM @ RUTGERS WINLAB
 PYTHON LIBRARY : FAKESENSOR
 """
 
-#-------------------- DEPENDENCIES -----------------------------
+# -------------------- DEPENDENCIES -----------------------------
 import socket	
 import struct
 import binascii
 import time
 import array
 import sys
+from termcolor import colored
 
+# ------------------- CONNECTION SETUP --------------------------
 try :
 	# take command line arguments :
 	try: 
 		host = sys.argv[1]
 		port = sys.argv[2]
 	except:
-		print " Please input the host / port name.\n Syntax: python filename.py hostname port"
+		print colored("	Please input the host / port name.\n 	Syntax: python filename.py hostname port", 'red')
 		
-	# host = 'localhost'		# IPv4 address
+	# host = 'localhost'	# IPv4 address, localhost for this program
 	# port = 7007			# port number	
 
+	# create new socket for TCP / IP connection
+	print "\n	connecting to the Aggregator server ..."
+	time.sleep(1)
 
 	NewSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 	# ( IPv4, socket constant )
 	NewSocket.connect((argv[1], argv[2]))	# attach socket to remote address
-except:
-	print "Error !"
-sys.exit()
+
+except Exception as ex:
+	print ("One or more errors have occurred !\n 	Exception: %s"%(ex))
+	NewSocket.close()
+	sys.exit()
+
 print "Connection Successful."
 
 print 'Handshake initiated..'
