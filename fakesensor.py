@@ -11,14 +11,17 @@ import time
 import array
 
 
+# take command line arguments :
+
 host = sys.argv[1]
 port = sys.argv[2]
 
-# TCP_IP = 'localhost'		# IPv4 address
-# TCP_PORT = 7007			# port number	
+# host = 'localhost'		# IPv4 address
+# port = 7007			# port number	
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 	# ( IPv4, socket constant )
-s.connect((TCP_IP, TCP_PORT))	# attach socket to remote address
+
+NewSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 	# ( IPv4, socket constant )
+NewSocket.connect((argv[1], argv[2]))	# attach socket to remote address
 print "Connection Successful."
 
 print 'Handshake initiated..'
