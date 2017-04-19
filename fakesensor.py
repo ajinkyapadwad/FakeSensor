@@ -9,19 +9,25 @@ import struct
 import binascii
 import time
 import array
+import sys
+
+try :
+	# take command line arguments :
+	try: 
+		host = sys.argv[1]
+		port = sys.argv[2]
+	except:
+		print " Please input the host / port name.\n Syntax: python filename.py hostname port"
+		
+	# host = 'localhost'		# IPv4 address
+	# port = 7007			# port number	
 
 
-# take command line arguments :
-
-host = sys.argv[1]
-port = sys.argv[2]
-
-# host = 'localhost'		# IPv4 address
-# port = 7007			# port number	
-
-
-NewSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 	# ( IPv4, socket constant )
-NewSocket.connect((argv[1], argv[2]))	# attach socket to remote address
+	NewSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 	# ( IPv4, socket constant )
+	NewSocket.connect((argv[1], argv[2]))	# attach socket to remote address
+except:
+	print "Error !"
+sys.exit()
 print "Connection Successful."
 
 print 'Handshake initiated..'
