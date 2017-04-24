@@ -5,6 +5,7 @@ AUTHOR : AJINKYA PADWAD
 
 MAIN REFERENCE : https://git.owlplatform.com/wiki/index.php/Category:GRAIL_RTLS_v3_Documentation
 
+GRAIL FAKE SENSOR
 """
 
 # -------------------- DEPENDENCIES -----------------------------
@@ -16,6 +17,10 @@ import sys
 from termcolor import colored
 
 # ------------------- CONNECTION SETUP --------------------------
+
+
+BadExit = False
+
 def main(host,port):
 
 	# handshake message values
@@ -81,7 +86,7 @@ def main(host,port):
 		time.sleep(1)
 		
 
-		SensorData = ( MessageLength, PhysicalLayer, DeviceID, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, ReceptionTime, RSSI , SensorData1, SensorData2 )
+		SensorData = ( MessageLength, PhysicalLayer,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16 , 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, ReceptionTime, RSSI , SensorData1, SensorData2 )
 		Packer = struct.Struct('!'+'i B 16B 16B Q f B B')
 
 		DataPacket = Packer.pack(*SensorData)
@@ -90,19 +95,19 @@ def main(host,port):
 		while 1:
 			NewSocket.sendall(DataPacket)
 			print 'SENT: Sample -', i
-			#print '	[',binascii.hexlify(DeviceID),':', binascii.hexlify(ReceiverID),' ] @', RSSI, ':- ', ReceptionTime
+			#print '	[',binascii.hexlify(*DeviceID),':', binascii.hexlify(*ReceiverID),' ] @', RSSI, ':- ', ReceptionTime
 			i=i+1
 			time.sleep(1)
 
-			# NewSocket.close()
-			# sys.exit()
-
-	except:
+			
+	except Exception as Err:
 		ErrorText = colored('\n\n 	One or more errors have occurred !\n', 'red')
 		print(ErrorText)
+		print "ERROR:", Err
 		print " 	socket disconnected\n"
 		#NewSocket.close()
-		sys.exit(0)
+		BadExit = True
+		#sys.exit(0)
 
 
 
@@ -118,10 +123,13 @@ if __name__ == '__main__':
 			main(host,port)	
 
 	except:
-		print colored("	Please input appropriate host name and port number.\n",'red') 	
-		print colored("	Syntax: python <filename.py>  <hostname>  <portnumber>", 'yellow')
-		print colored("\n\n Try Default : \n 	Hostname - localhost \n 	port - 7007 ", 'blue')
-		sys.exit()
+		if BadExit is False:
+			print colored("	Please input appropriate host name and port number.\n",'red') 	
+			print colored("	Syntax: python <filename.py>  <hostname>  <portnumber>", 'yellow')
+			print colored("\n\n Try Default : \n 	Hostname - localhost \n 	port - 7007 ", 'blue')
+			sys.exit()
+		else :
+			sys.exit()
 	
 
 
