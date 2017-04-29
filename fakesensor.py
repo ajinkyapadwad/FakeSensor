@@ -16,6 +16,8 @@ import time
 import sys
 from termcolor import colored
 
+import com.owlplatform.common.SampleMessage
+
 # ------------------- CONNECTION SETUP --------------------------
 
 
@@ -29,16 +31,17 @@ def main(host,port):
 	Version = 0
 	ReservedBits = 0
 
-	# sample sensor data values 
-	MessageLength = 0x2f 
-	PhysicalLayer = 1 
-	# DeviceID = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
-	# ReceiverID =[16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1]
-	DeviceID = '\x01\x02\x03\x04\x05\x06\x07\x08\x09\x10\x11\x12\x13\x14\x15\x16'
-	ReceptionTime =  int(round(time.time()*1000))
-	RSSI = -50.0
-	SensorData1 = 0xab
-	SensorData2 = 0xba
+	
+	# # sample sensor data values 
+	# MessageLength = 0x2f 
+	# PhysicalLayer = 1 
+	# # DeviceID = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
+	# # ReceiverID =[16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1]
+	# DeviceID = '\x01\x02\x03\x04\x05\x06\x07\x08\x09\x10\x11\x12\x13\x14\x15\x16'
+	# ReceptionTime =  int(round(time.time()*1000))
+	# RSSI = -50.0
+	# SensorData1 = 0xab
+	# SensorData2 = 0xba
 	
 	MessageBuffer = 50
 
