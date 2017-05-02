@@ -19,8 +19,6 @@ import SampleMessage as msg
 import HandshakeMessage as handshake
 import SensorAggregatorInterface as interface
 
-
-
 BadExit = False
 
 def main(host,port):
@@ -29,7 +27,6 @@ def main(host,port):
 		interface.SetHost(host)
 		interface.SetPort(port)
 
-		# create new socket for TCP / IP connection
 		print colored("\n	Connecting to the Aggregator server ...", 'green')
 		time.sleep(1)
 		
