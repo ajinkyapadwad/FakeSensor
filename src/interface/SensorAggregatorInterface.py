@@ -8,12 +8,11 @@ MAIN REFERENCE : https://git.owlplatform.com/wiki/index.php/Category:GRAIL_RTLS_
 GRAIL FAKE SENSOR
 """
 import socket
-import SampleMessage
-import HandshakeMessage
+import messages.SampleMessage
+import messages.HandshakeMessage
 from termcolor import colored
 import time
-# class SensorAggregatorInterface:
-	# default values 
+
 
 host = 'localhost'
 port = 7007

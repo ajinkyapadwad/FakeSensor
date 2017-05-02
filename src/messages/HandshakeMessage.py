@@ -10,7 +10,7 @@ GRAIL FAKE SENSOR
 from termcolor import colored
 import struct
 import socket
-import SensorAggregatorInterface as interface
+
 
 # handshake message values
 StringLength = 21
@@ -19,7 +19,8 @@ Version = 0
 ReservedBits = 0
 
 def StartHandshake():
-
+	import interface.SensorAggregatorInterface as interface 
+	
 	HandshakeMessage = (StringLength, ProtocolMessage, Version, ReservedBits)
 	Packer = struct.Struct('!'+'I 21s b b')				# declare a new struct object
 	DataPacket = Packer.pack(*HandshakeMessage)	

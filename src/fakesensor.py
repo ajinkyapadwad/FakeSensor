@@ -15,9 +15,9 @@ import time
 import sys
 from termcolor import colored
 
-import SampleMessage as msg
-import HandshakeMessage as handshake
-import SensorAggregatorInterface as interface
+import messages.SampleMessage as msg
+import messages.HandshakeMessage as handshake
+import interface.SensorAggregatorInterface as interface
 
 BadExit = False
 

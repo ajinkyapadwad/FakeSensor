@@ -10,7 +10,7 @@ GRAIL FAKE SENSOR
 from termcolor import colored
 import struct
 import socket
-import SensorAggregatorInterface as interface
+import interface.SensorAggregatorInterface as interface
 import time
 
 # default values
