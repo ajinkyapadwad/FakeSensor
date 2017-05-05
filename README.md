@@ -68,7 +68,7 @@ __Running the python library :__
 
 2. New terminal - run the Fakesensor client
 	
-	python fakesensor.py <hostname> <port-number>
+	python fakesensor.py [hostname] [port-number]
 
 	Default :	__python fakesensor.py localhost 7007__
 
