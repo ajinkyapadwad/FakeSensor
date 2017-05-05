@@ -1,22 +1,22 @@
-"""
 OWL PLATFORM @ RUTGERS WINLAB
 PYTHON LIBRARY : SENSOR
 AUTHOR : AJINKYA PADWAD
+SPRING 2017
 
-MAIN REFERENCE : https://git.owlplatform.com/wiki/index.php/Category:GRAIL_RTLS_v3_Documentation
+SOURCE: https://git.owlplatform.com/wiki/index.php/Category:GRAIL_RTLS_v3_Documentation
 
 GRAIL FAKE SENSOR
-"""
------------------------------------------------------------------
+
 
 Python alternative library for the existing Java Fakesensor. 
 
------------------------------------------------------------------
-Dependencies :
-	python libraries : struct, binascii, time, sys, termcolor, socket
-	SampleMessage.py  :  wraps the sensor data into packet
-	HandshakeMessage.py : wraps the standard sensor-aggregator handshake protocol
-	SensorAggregatorInterface : connects to the aggregator and sends samples
+=================================================================
+
+DEPENDENCIES :
+..python libraries : struct, binascii, time, sys, termcolor, socket
+..SampleMessage.py  :  wraps the sensor data into packet
+..HandshakeMessage.py : wraps the standard sensor-aggregator handshake protocol
+..SensorAggregatorInterface : connects to the aggregator and sends samples
 
 -----------------------------------------------------------------
 
