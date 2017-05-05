@@ -59,10 +59,13 @@ def SetSensorData(data1,data2):
 	except:
 		print " Error at setting Sensor Data."
 
-def CreateSensorData():
+def PackData():
+	global DataPacket
 
 	SensorData = ( MessageLength, PhysicalLayer,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16 , 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, ReceptionTime, RSSI , SensorData1, SensorData2 )
 	Packer = struct.Struct('!'+'i B 16B 16B Q f B B')
+
 	DataPacket = Packer.pack(*SensorData)
-	interface.SendSensorData(DataPacket)
+
+	# interface.SendSensorData(DataPacket)
 

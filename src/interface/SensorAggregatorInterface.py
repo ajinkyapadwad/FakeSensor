@@ -8,7 +8,7 @@ MAIN REFERENCE : https://git.owlplatform.com/wiki/index.php/Category:GRAIL_RTLS_
 GRAIL FAKE SENSOR
 """
 import socket
-import messages.SampleMessage
+
 import messages.HandshakeMessage
 from termcolor import colored
 import time
@@ -54,11 +54,11 @@ def SendHandshake(DataPacket):
 
 	print colored('\n\n 	Handshake complete.','green')
 
-def SendSensorData(DataPacket):
-		i=1
-		while 1:
-			NewSocket.sendall(DataPacket)
-			print 'SENT: Sample -', i
-
-			i=i+1
-			time.sleep(1)
+def SendSamples():
+	import messages.SampleMessage as msg
+	i=1
+	while 1:
+		NewSocket.sendall(msg.DataPacket)
+		print 'SENT: Sample -', i
+		i=i+1
+		time.sleep(1)

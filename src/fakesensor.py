@@ -56,7 +56,9 @@ def main(host,port):
 			print colored('\n 	Now sending sensor data...', 'blue')
 			time.sleep(1)
 		
-			msg.CreateSensorData()
+			msg.PackData()
+
+			interface.SendSamples()
 		
 	except Exception as Err:
 		ErrorText = colored('\n\n 	One or more errors have occurred !\n', 'red')
