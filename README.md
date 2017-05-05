@@ -11,34 +11,47 @@ GRAIL FAKE SENSOR
 Python alternative library for the existing Java Fakesensor. 
 
 
-_DEPENDENCIES :_  
+__DEPENDENCIES :__  
   python libraries : struct, binascii, time, sys, termcolor, socket
+
   SampleMessage.py  :  wraps the sensor data into packet
+
   HandshakeMessage.py : wraps the standard sensor-aggregator handshake protocol
+
   SensorAggregatorInterface : connects to the aggregator and sends samples
 
 -----------------------------------------------------------------
 
-_File / package heirarchy :_
+__File / package heirarchy :__
   
 python-owl-sensor /
+
   src /
+
     interface /
+
       SensorAggregatorInterface.py
+
     messages /
+
       HandshakeMessage.py
+
       SampleMessage.py	
+
     fakesensor.py
 
 -----------------------------------------------------------------
 
-_Library position :_
+__Library position :__
+
   Client side : Fakesensor
+
   Server side : Aggregator
+
 
 -----------------------------------------------------------------
 
-_Running the python library :_
+__Running the python library :__
 
 1. Run the Aggregator :
 
