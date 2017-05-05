@@ -58,15 +58,15 @@ __Running the python library :__
 	_sudo /etc/init.d/owl-aggregator start_ ( or stop )
 
 	_java -jar ./aggregator/target/aggregator-3.0.4-SNAPSHOT-jar-with-dependencies.jar_
-	
-Sample successful terminal output :
 
-  [2017-05-05 18:21:05,208] INFO  main/Aggregator - GRAIL Aggregator is listening for sensors on on port 7007.
-  [2017-05-05 18:21:05,208] INFO  main/Aggregator - GRAIL Aggregator is listening for solvers on on port 7008.
-  [2017-05-05 18:21:15,192] INFO  Timer-0/Aggregator - Processed 0 samples since last report.
-  Statistics
-    Avg. Process Time: NaN ms
-    Avg. Sample Lifetime: NaN ms
+	Sample successful terminal output :
+
+	[2017-05-05 18:21:05,208] INFO  main/Aggregator - GRAIL Aggregator is listening for sensors on on port 7007.
+	[2017-05-05 18:21:05,208] INFO  main/Aggregator - GRAIL Aggregator is listening for solvers on on port 7008.
+	[2017-05-05 18:21:15,192] INFO  Timer-0/Aggregator - Processed 0 samples since last report.
+	Statistics
+	Avg. Process Time: NaN ms
+	Avg. Sample Lifetime: NaN ms
 
 2. New terminal - run the Fakesensor client
 	
